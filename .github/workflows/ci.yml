@@ -33,9 +33,9 @@ jobs:
       #     qemu-system-arm --version
       #     lsb_release -a
       #     free -m
-      - name: Docker Setup QEMU
-        uses: docker/setup-qemu-action@v2.1.0
-
+      - name: Test Docker
+        run: |
+          docker --version
       # - run: cargo run --release
       #   working-directory: tests/cortex
       #   continue-on-error: true
