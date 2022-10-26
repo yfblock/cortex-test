@@ -33,9 +33,17 @@ jobs:
       #     qemu-system-arm --version
       #     lsb_release -a
       #     free -m
-      - name: Test Docker
+      - name: Install Qemu
         run: |
-          docker --version
+          sudo apt-get update
+          sudo apt-get install ninja-build -y
+          sudo apt install libpixman-1-dev -y
+          wget https://download.qemu.org/qemu-7.0.0.tar.xz
+          tar -xf qemu-7.0.0.tar.xz
+          cd qemu-7.0.0
+          ./configure --target-list=arm-softmmu
+          make -j
+          sudo make install
       # - run: cargo run --release
       #   working-directory: tests/cortex
       #   continue-on-error: true
