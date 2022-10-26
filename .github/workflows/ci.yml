@@ -23,8 +23,8 @@ jobs:
         with:
             toolchain: nightly
             override: true
-            # target: thumbv7m-none-eabi
-            target: thumbv7em-none-eabi
+            target: thumbv7m-none-eabi
+            # target: thumbv7em-none-eabi
       - name: Install QEMU
         run: |
           sudo apt-get update
