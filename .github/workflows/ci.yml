@@ -25,14 +25,17 @@ jobs:
             override: true
             target: thumbv7m-none-eabi
             # target: thumbv7em-none-eabi
-      - name: Install QEMU
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-system-arm
-          rustc --version
-          qemu-system-arm --version
-          lsb_release -a
-          free -m
+      # - name: Install QEMU
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y qemu-system-arm
+      #     rustc --version
+      #     qemu-system-arm --version
+      #     lsb_release -a
+      #     free -m
+      - name: Docker Setup QEMU
+        uses: docker/setup-qemu-action@v2.1.0
+
       # - run: cargo run --release
       #   working-directory: tests/cortex
       #   continue-on-error: true
