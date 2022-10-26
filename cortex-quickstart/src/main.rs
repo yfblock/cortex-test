@@ -14,13 +14,14 @@ use cortex_m_rt::entry;
 
 #[entry]
 fn main() -> ! {
-    asm::nop(); // To not have main optimize to abort in release mode, remove when you add code
+    if let Some(_cp) = cortex_m::peripheral::Peripherals::take() {
+        // Put your initialisation code here
 
-    // hprintln!("Hello World!").unwrap();
-
-    // debug::exit(debug::EXIT_SUCCESS);
+        // Replace this nop with the code you want to run in main, perhaps using a loop
+        cortex_m::asm::nop();
+    }
 
     loop {
-        // your code goes here
+        continue;
     }
 }
