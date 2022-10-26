@@ -36,3 +36,4 @@ jobs:
       #   working-directory: tests/cortex
       #   continue-on-error: true
       - run: cargo run --release
+        working-directory: cortex-quickstart
