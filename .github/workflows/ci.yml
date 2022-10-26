@@ -35,5 +35,5 @@ jobs:
       # - run: cargo run --release
       #   working-directory: tests/cortex
       #   continue-on-error: true
-      - run: cargo run --release
+      - run: timeout 3 cargo run --release
         working-directory: cortex-quickstart

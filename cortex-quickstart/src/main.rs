@@ -10,7 +10,7 @@ use panic_halt as _; // you can put a breakpoint on `rust_begin_unwind` to catch
 use cortex_m::asm;
 use cortex_m_rt::entry;
 // use cortex_m_semihosting::{debug, hprintln};
-use cortex_m_semihosting::debug;
+// use cortex_m_semihosting::debug;
 
 #[entry]
 fn main() -> ! {
@@ -18,7 +18,7 @@ fn main() -> ! {
 
     // hprintln!("Hello World!").unwrap();
 
-    debug::exit(debug::EXIT_SUCCESS);
+    // debug::exit(debug::EXIT_SUCCESS);
 
     loop {
         // your code goes here
