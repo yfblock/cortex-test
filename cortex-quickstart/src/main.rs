@@ -15,6 +15,8 @@ use cortex_m_semihosting::{debug, hprintln};
 fn main() -> ! {
     asm::nop(); // To not have main optimize to abort in release mode, remove when you add code
 
+    hprintln!("Hello World!").unwrap();
+
     debug::exit(debug::EXIT_SUCCESS);
 
     loop {
