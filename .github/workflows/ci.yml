@@ -49,6 +49,6 @@ jobs:
       #   working-directory: tests/cortex
       #   continue-on-error: true
       - run: |
-          cargo build --release
-          timeout 3 cargo run --release
-        working-directory: cortex-quickstart
+          cargo build --release --features semihosting
+          timeout 3 cargo run --release --features semihosting
+        working-directory: testsuite
