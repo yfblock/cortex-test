@@ -10,70 +10,53 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
-  # cortex:
-  #   name: Cortex-M
-  #   runs-on: ubuntu-22.04
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     # - uses: dtolnay/rust-toolchain@nightly
-  #     #   with:
-  #     #     target: thumbv7m-none-eabi
-  #     - name: Install latest nightly
-  #       uses: actions-rs/toolchain@v1
-  #       with:
-  #           toolchain: nightly
-  #           override: true
-  #           target: thumbv7m-none-eabi
-  #           # target: thumbv7em-none-eabi
-  #           # target: thumbv7em-none-eabihf
-  #     - name: Install QEMU
-  #       run: |
-  #         sudo apt-get update
-  #         sudo apt-get install -y qemu-system-arm
-  #         rustc --version
-  #         qemu-system-arm --version
-  #         lsb_release -a
-  #         free -m
-  #     # - name: Install Qemu
-  #     #   run: |
-  #     #     sudo apt-get update
-  #     #     sudo apt-get install ninja-build -y
-  #     #     sudo apt install libpixman-1-dev -y
-  #     #     wget https://download.qemu.org/qemu-7.0.0.tar.xz
-  #     #     tar -xf qemu-7.0.0.tar.xz
-  #     #     cd qemu-7.0.0
-  #     #     ./configure --target-list=arm-softmmu
-  #     #     make -j
-  #     #     sudo make install
-  #     # - run: cargo run --release
-  #     #   working-directory: tests/cortex
-  #     #   continue-on-error: true
-  #     - run: |
-  #         cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
-  #         timeout 3 cargo run -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
-  #       working-directory: testsuite
-
-  hil-qemu:
-    runs-on: ubuntu-latest
+  cortex:
+    name: Cortex-M
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - uses: actions-rs/toolchain@v1
+      - uses: dtolnay/rust-toolchain@nightly
         with:
-          profile: minimal
-          toolchain: stable
-          override: true
           target: thumbv7m-none-eabi
-      - name: Build testsuite
-        env:
-          RUSTFLAGS: -C link-arg=-Tlink.x -D warnings
-        run: cd testsuite && cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
       - name: Install QEMU
-        run: sudo apt-get update && sudo apt-get install qemu qemu-system-arm
-      - name: Run testsuite
         run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-system-arm
+          rustc --version
+          qemu-system-arm --version
+          lsb_release -a
+          free -m
+      - run: |
+          cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
           qemu-system-arm \
             -cpu cortex-m3 \
             -machine lm3s6965evb \
             -nographic \
             -semihosting-config enable=on,target=native \
-            -kernel testsuite/target/thumbv7m-none-eabi/debug/testsuite
+            -kernel target/thumbv7m-none-eabi/debug/testsuite
+        working-directory: testsuite
+
+  # hil-qemu:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions-rs/toolchain@v1
+  #       with:
+  #         profile: minimal
+  #         toolchain: stable
+  #         override: true
+  #         target: thumbv7m-none-eabi
+  #     - name: Build testsuite
+  #       env:
+  #         RUSTFLAGS: -C link-arg=-Tlink.x -D warnings
+  #       run: cd testsuite && cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
+  #     - name: Install QEMU
+  #       run: sudo apt-get update && sudo apt-get install qemu qemu-system-arm
+  #     - name: Run testsuite
+  #       run: |
+  #         qemu-system-arm \
+  #           -cpu cortex-m3 \
+  #           -machine lm3s6965evb \
+  #           -nographic \
+  #           -semihosting-config enable=on,target=native \
+  #           -kernel testsuite/target/thumbv7m-none-eabi/debug/testsuite
