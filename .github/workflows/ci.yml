@@ -54,26 +54,26 @@ jobs:
   #       working-directory: testsuite
 
   hil-qemu:
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-        target: thumbv7m-none-eabi
-    - name: Build testsuite
-      env:
-        RUSTFLAGS: -C link-arg=-Tlink.x -D warnings
-      run: cd testsuite && cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
-    - name: Install QEMU
-      run: sudo apt-get update && sudo apt-get install qemu qemu-system-arm
-    - name: Run testsuite
-      run: |
-        qemu-system-arm \
-          -cpu cortex-m3 \
-          -machine lm3s6965evb \
-          -nographic \
-          -semihosting-config enable=on,target=native \
-          -kernel testsuite/target/thumbv7m-none-eabi/debug/testsuite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: thumbv7m-none-eabi
+      - name: Build testsuite
+        env:
+          RUSTFLAGS: -C link-arg=-Tlink.x -D warnings
+        run: cd testsuite && cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
+      - name: Install QEMU
+        run: sudo apt-get update && sudo apt-get install qemu qemu-system-arm
+      - name: Run testsuite
+        run: |
+          qemu-system-arm \
+            -cpu cortex-m3 \
+            -machine lm3s6965evb \
+            -nographic \
+            -semihosting-config enable=on,target=native \
+            -kernel testsuite/target/thumbv7m-none-eabi/debug/testsuite
