@@ -18,14 +18,14 @@ jobs:
       # - uses: dtolnay/rust-toolchain@nightly
       #   with:
       #     target: thumbv7m-none-eabi
-      # - name: Install latest nightly
-      #   uses: actions-rs/toolchain@v1
-      #   with:
-      #       toolchain: nightly
-      #       override: true
-      #       # target: thumbv7m-none-eabi
-      #       # target: thumbv7em-none-eabi
-      #       target: thumbv7em-none-eabihf
+      - name: Install latest nightly
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: nightly
+            override: true
+            # target: thumbv7m-none-eabi
+            # target: thumbv7em-none-eabi
+            target: thumbv7em-none-eabihf
       - name: Install QEMU
         run: |
           sudo apt-get update
@@ -34,17 +34,17 @@ jobs:
           qemu-system-arm --version
           lsb_release -a
           free -m
-      - name: Install Qemu
-        run: |
-          sudo apt-get update
-          sudo apt-get install ninja-build -y
-          sudo apt install libpixman-1-dev -y
-          wget https://download.qemu.org/qemu-7.0.0.tar.xz
-          tar -xf qemu-7.0.0.tar.xz
-          cd qemu-7.0.0
-          ./configure --target-list=arm-softmmu
-          make -j
-          sudo make install
+      # - name: Install Qemu
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install ninja-build -y
+      #     sudo apt install libpixman-1-dev -y
+      #     wget https://download.qemu.org/qemu-7.0.0.tar.xz
+      #     tar -xf qemu-7.0.0.tar.xz
+      #     cd qemu-7.0.0
+      #     ./configure --target-list=arm-softmmu
+      #     make -j
+      #     sudo make install
       # - run: cargo run --release
       #   working-directory: tests/cortex
       #   continue-on-error: true
