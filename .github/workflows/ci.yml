@@ -26,7 +26,10 @@ jobs:
           qemu-system-arm --version
           lsb_release -a
           free -m
-      - run: |
+      - name: build target
+        env:
+          RUSTFLAGS: -C link-arg=-Tlink.x -D warnings
+        run: |
           cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
           qemu-system-arm \
             -cpu cortex-m3 \
