@@ -49,6 +49,6 @@ jobs:
       #   working-directory: tests/cortex
       #   continue-on-error: true
       - run: |
-          cargo build --release --features semihosting
-          timeout 3 cargo run --release --features semihosting
+          cargo build -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
+          timeout 3 cargo run -p testsuite --target thumbv7m-none-eabi --features semihosting,cortex-m/critical-section-single-core
         working-directory: testsuite
