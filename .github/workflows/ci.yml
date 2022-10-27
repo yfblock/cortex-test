@@ -23,8 +23,9 @@ jobs:
         with:
             toolchain: nightly
             override: true
-            target: thumbv7m-none-eabi
+            # target: thumbv7m-none-eabi
             # target: thumbv7em-none-eabi
+            target: thumbv7em-none-eabihf
       # - name: Install QEMU
       #   run: |
       #     sudo apt-get update
@@ -50,4 +51,4 @@ jobs:
       - run: |
           cargo build --release
           timeout 3 cargo run --release
-        working-directory: cortex-quickstart
+        working-directory: arm
